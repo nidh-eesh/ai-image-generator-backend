@@ -10,8 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const numberOfKeys = 10;
-const apiKeys = Array.from({ length: numberOfKeys }, (_, i) => process.env[`AIMLAPI_KEY_${i + 1}`])
+const apiKeys = Object.keys(process.env)
+	.filter(key => key.startsWith('AIMLAPI_KEY_'))
+	.map(key => process.env[key])
 	.filter(key => key);
 
 // Handle POST request to '/dream' endpoint
